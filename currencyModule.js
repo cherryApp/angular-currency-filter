@@ -1076,13 +1076,15 @@ angular.module( 'currencyModule', [] )
     
 } )
 .filter( 'currencyFilter', ['currencyFactory', function( currencyFactory ) {
-    return function( input, code ) {
+    return function( input, code, separator ) {
         var lang = navigator.language.toUpperCase();
         var code = code || currencyFactory.locales[lang];
         code = code || 'USD';
         var presymbols = currencyFactory.presymbols.indexOf( code ) !== -1;
         
-        var out = currencyFactory.separator( input, ' ' );
+        separator = angular.isDefined(separator) ? separator : ' ';
+        
+        var out = currencyFactory.separator( input, separator );
         if ( presymbols ) {
             out = currencyFactory.currencies[code].symbol + ' ' + out;
         } else {
